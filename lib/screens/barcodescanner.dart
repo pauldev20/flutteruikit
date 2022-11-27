@@ -163,8 +163,9 @@ class ScannerOverlay extends ShapeBorder {
 // Screen
 class BarcodeScannerScreen extends StatefulWidget {
   final void Function(Barcode barcode)? onScan;
+  final bool singleScan;
 
-  const BarcodeScannerScreen({super.key, required this.onScan});
+  const BarcodeScannerScreen({super.key, required this.onScan, this.singleScan = true});
 
   @override
   State<BarcodeScannerScreen> createState() => _BarcodeScannerScreenState();
@@ -177,6 +178,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
   bool _hasFlashlight = false;
   bool _turnedOnFlash = false;
   bool _canProcess = true;
+  bool _scanned = false;
   bool _isBusy = false;
   Rect? cutOutSquare;
   String? error;
@@ -282,7 +284,10 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
         if (!cutOutSquareScaled.contains(Offset(point.x.toDouble(), point.y.toDouble()))) valid = false;
       }
     }
-    if (valid && widget.onScan != null && barcodes.isNotEmpty) widget.onScan!(barcodes[0]);
+    if (valid && widget.onScan != null && barcodes.isNotEmpty && (widget.singleScan && _scanned)) {
+      _scanned = true;
+      widget.onScan!(barcodes[0]);
+    }
     _isBusy = false;
   }
 
