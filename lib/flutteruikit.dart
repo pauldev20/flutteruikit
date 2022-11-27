@@ -5,6 +5,7 @@ import 'flutteruikit_platform_interface.dart';
 export 'widgets/icnbutton.dart';
 export 'widgets/linkbutton.dart';
 export 'screens/barcodescanner.dart';
+export 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart' show BarcodeFormat;
 
 
 class Flutteruikit {
